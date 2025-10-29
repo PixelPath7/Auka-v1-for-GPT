@@ -1,0 +1,99 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section text-center">
+    <div class="container">
+        <h1 class="display-4 mb-4">Bienvenida a AUKA Terapias</h1>
+        <p class="lead mb-4">Productos naturales y terapias complementarias para tu bienestar</p>
+        <a href="{% url 'core:productos' %}" class="btn btn-success btn-lg me-2">Ver Productos</a>
+        <a href="{% url 'core:servicios' %}" class="btn btn-outline-light btn-lg">Conocer Servicios</a>
+    </div>
+</section>
+
+<!-- Carrusel de Productos Destacados -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Productos Destacados</h2>
+        <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for producto in productos %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <div class="card product-card">
+                                <img src="{{ producto.fotografia.url }}" class="card-img-top" alt="{{ producto.nombre }}" style="height: 300px; object-fit: cover;">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">{{ producto.nombre }}</h5>
+                                    <p class="card-text">{{ producto.descripcion|truncatewords:20 }}</p>
+                                    <p class="text-success fw-bold">${{ producto.precio_referencia }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Servicios -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Nuestros Servicios de Terapia</h2>
+        <div class="row">
+            {% for servicio in servicios %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ servicio.nombre }}</h5>
+                        <p class="card-text">{{ servicio.descripcion }}</p>
+                        <p><strong>Duración:</strong> {{ servicio.duracion }}</p>
+                        <p><strong>Beneficios:</strong> {{ servicio.beneficios|truncatewords:15 }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Blog y Eventos -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h3 class="mb-4">Últimos Artículos</h3>
+                {% for articulo in articulos %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ articulo.titulo }}</h5>
+                        <p class="card-text">{{ articulo.contenido|truncatewords:30 }}</p>
+                        <small class="text-muted">{{ articulo.fecha_publicacion|date:"d M Y" }}</small>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="col-md-6">
+                <h3 class="mb-4">Próximos Eventos</h3>
+                {% for evento in eventos %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ evento.titulo }}</h5>
+                        <p class="card-text">{{ evento.descripcion|truncatewords:20 }}</p>
+                        <p><small class="text-muted">{{ evento.fecha|date:"d M Y H:i" }} - {{ evento.ubicacion }}</small></p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

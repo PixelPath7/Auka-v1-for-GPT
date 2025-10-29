@@ -1,0 +1,120 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Servicios de Terapia - AUKA Terapias{% endblock %}
+
+{% block content %}
+<!-- Hero Section Servicios -->
+<section class="bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h1 class="display-4 fw-bold">Terapias Complementarias</h1>
+                <p class="lead">Descubre nuestros servicios terapéuticos para tu bienestar integral</p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <img src="{% static 'images/servicios-hero.png' %}" alt="Servicios de Terapia" class="img-fluid" style="max-height: 200px;">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Lista de Servicios -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            {% for servicio in servicios %}
+            <div class="col-lg-6 mb-5">
+                <div class="card service-card h-100 border-0 shadow-lg">
+                    <div class="card-header bg-white border-0 py-4">
+                        <h3 class="card-title text-center text-primary mb-0">{{ servicio.nombre }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="service-icon text-center mb-4">
+                            {% if "masaje" in servicio.nombre.lower %}
+                            <i class="fas fa-spa fa-3x text-primary"></i>
+                            {% elif "reflex" in servicio.nombre.lower %}
+                            <i class="fas fa-hands fa-3x text-primary"></i>
+                            {% elif "floral" in servicio.nombre.lower %}
+                            <i class="fas fa-flower fa-3x text-primary"></i>
+                            {% else %}
+                            <i class="fas fa-heartbeat fa-3x text-primary"></i>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="service-info mb-4">
+                            <h5 class="text-success"><i class="fas fa-clock me-2"></i>Duración</h5>
+                            <p class="ps-4">{{ servicio.duracion }}</p>
+                        </div>
+                        
+                        <div class="service-description mb-4">
+                            <h5 class="text-success"><i class="fas fa-info-circle me-2"></i>Descripción</h5>
+                            <p class="ps-4">{{ servicio.descripcion }}</p>
+                        </div>
+                        
+                        <div class="service-benefits">
+                            <h5 class="text-success"><i class="fas fa-star me-2"></i>Beneficios</h5>
+                            <ul class="ps-4">
+                                {% for beneficio in servicio.beneficios.splitlines %}
+                                {% if beneficio.strip %}
+                                <li>{{ beneficio.strip }}</li>
+                                {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-0 py-3">
+                        <a href="https://wa.me/56912345678?text=Hola%20AUKA%20Terapias,%20me%20interesa%20el%20servicio:%20{{ servicio.nombre|urlencode }}"
+                           class="btn btn-primary btn-lg w-100" target="_blank">
+                            <i class="fab fa-whatsapp me-2"></i>Solicitar Información y Cotización
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Proceso de Terapia -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Nuestro Enfoque Terapéutico</h2>
+        <div class="row">
+            <div class="col-md-4 text-center mb-4">
+                <div class="bg-white rounded-circle p-4 mx-auto shadow-sm mb-3" style="width: 120px; height: 120px;">
+                    <i class="fas fa-user-md fa-2x text-primary"></i>
+                </div>
+                <h4 class="text-success">Evaluación Inicial</h4>
+                <p class="text-muted">Realizamos una evaluación completa para entender tus necesidades específicas y objetivos de bienestar.</p>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <div class="bg-white rounded-circle p-4 mx-auto shadow-sm mb-3" style="width: 120px; height: 120px;">
+                    <i class="fas fa-customize fa-2x text-primary"></i>
+                </div>
+                <h4 class="text-success">Plan Personalizado</h4>
+                <p class="text-muted">Desarrollamos un plan terapéutico adaptado a tus necesidades específicas y condiciones particulares.</p>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <div class="bg-white rounded-circle p-4 mx-auto shadow-sm mb-3" style="width: 120px; height: 120px;">
+                    <i class="fas fa-heart fa-2x text-primary"></i>
+                </div>
+                <h4 class="text-success">Seguimiento Continuo</h4>
+                <p class="text-muted">Acompañamos tu proceso con seguimiento y ajustes necesarios para optimizar los resultados.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5 bg-primary text-white">
+    <div class="container text-center">
+        <h2 class="mb-4">¿Lista para comenzar tu camino al bienestar?</h2>
+        <p class="lead mb-4">Agenda tu primera sesión y descubre los beneficios de nuestras terapias complementarias</p>
+        <a href="https://wa.me/56912345678?text=Hola%20AUKA%20Terapias,%20quiero%20agendar%20una%20sesión%20de%20terapia"
+           class="btn btn-light btn-lg" target="_blank">
+            <i class="fab fa-whatsapp me-2"></i>Agendar por WhatsApp
+        </a>
+    </div>
+</section>
+{% endblock %}

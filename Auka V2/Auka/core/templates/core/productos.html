@@ -1,0 +1,115 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Productos Naturales - AUKA Terapias{% endblock %}
+
+{% block content %}
+<!-- Hero Section Productos -->
+<section class="bg-success text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h1 class="display-4 fw-bold">Nuestros Productos Naturales</h1>
+                <p class="lead">Elaborados con ingredientes 100% naturales y procesos artesanales</p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <img src="{% static 'images/productos-hero.png' %}" alt="Productos Naturales" class="img-fluid" style="max-height: 200px;">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Filtros por Categoría -->
+<section class="py-4 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h4 class="text-center mb-4">Filtrar por Categoría</h4>
+                <div class="d-flex flex-wrap justify-content-center gap-2">
+                    <a href="{% url 'core:productos' %}" class="btn btn-outline-success {% if not request.GET.categoria %}active{% endif %}">
+                        Todos los Productos
+                    </a>
+                    {% for categoria in categorias %}
+                    <a href="{% url 'core:productos' %}?categoria={{ categoria.id }}" 
+                       class="btn btn-outline-success {% if request.GET.categoria == categoria.id|stringformat:'i' %}active{% endif %}">
+                        {{ categoria.nombre }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Grid de Productos -->
+<section class="py-5">
+    <div class="container">
+        {% if productos %}
+        <div class="row">
+            {% for producto in productos %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card product-card h-100 border-0 shadow-sm">
+                    <div class="position-relative">
+                        <img src="{{ producto.fotografia.url }}" class="card-img-top" alt="{{ producto.nombre }}" 
+                             style="height: 250px; object-fit: cover;">
+                        <span class="position-absolute top-0 start-0 bg-success text-white px-3 py-1 small">
+                            {{ producto.categoria.nombre }}
+                        </span>
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-success">{{ producto.nombre }}</h5>
+                        <p class="card-text flex-grow-1">{{ producto.descripcion|truncatewords:25 }}</p>
+                        <div class="mt-auto">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="h5 text-success mb-0">${{ producto.precio_referencia }}</span>
+                                <small class="text-muted">Precio de referencia</small>
+                            </div>
+                            <a href="https://wa.me/56912345678?text=Hola%20AUKA%20Terapias,%20me%20interesa%20el%20producto:%20{{ producto.nombre|urlencode }}%20-%20${{ producto.precio_referencia }}"
+                               class="btn btn-success w-100" target="_blank">
+                                <i class="fab fa-whatsapp me-2"></i>Cotizar por WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-seedling fa-3x text-muted mb-3"></i>
+            <h3 class="text-muted">No hay productos disponibles en esta categoría</h3>
+            <p class="text-muted">Pronto tendremos nuevos productos naturales para ti</p>
+            <a href="{% url 'core:productos' %}" class="btn btn-success">Ver todos los productos</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Información de Producción -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h2 class="mb-4">Nuestro Proceso de Producción</h2>
+                <div class="process-step mb-3">
+                    <h5 class="text-success"><i class="fas fa-leaf me-2"></i>Selección de Ingredientes</h5>
+                    <p class="text-muted">Seleccionamos cuidadosamente ingredientes naturales de la más alta calidad, muchos provenientes de Punta Arenas.</p>
+                </div>
+                <div class="process-step mb-3">
+                    <h5 class="text-success"><i class="fas fa-mortar-pestle me-2"></i>Elaboración Artesanal</h5>
+                    <p class="text-muted">Cada producto es elaborado de manera artesanal, preservando las propiedades naturales de los ingredientes.</p>
+                </div>
+                <div class="process-step mb-3">
+                    <h5 class="text-success"><i class="fas fa-heart me-2"></i>Control de Calidad</h5>
+                    <p class="text-muted">Realizamos controles rigurosos para garantizar la calidad y efectividad de todos nuestros productos.</p>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card border-0">
+                    <img src="{% static 'images/proceso-produccion.jpg' %}" alt="Proceso de producción" class="card-img-top rounded">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
